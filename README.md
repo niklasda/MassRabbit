@@ -1,2 +1,2 @@
 # MassRabbit
-MAssTransit and RabbitMQ
+MassTransit and RabbitMQ
