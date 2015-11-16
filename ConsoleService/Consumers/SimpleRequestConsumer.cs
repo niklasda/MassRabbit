@@ -17,8 +17,7 @@ namespace ConsoleService.Consumers
             Console.WriteLine("Returning name for {0}", context.Message.CustomerId);
 
             _log.Info("Consuming...");
-
-
+            
             context.Respond(new SimpleResponse
             {
                 CustomerName = string.Format("Customer Number {0}", context.Message.CustomerId)

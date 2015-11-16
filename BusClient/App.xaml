@@ -1,8 +1,11 @@
-﻿<Application x:Class="BusClient.App"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             StartupUri="Views/MainWindow.xaml">
+﻿<Application x:Class="BusClient.App" 
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+             StartupUri="Views/MainWindow.xaml" 
+             xmlns:locators="clr-namespace:BusClient.Locators">
     <Application.Resources>
-         
+        <ResourceDictionary>
+            <locators:ViewModelLocator x:Key="Locator" />
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

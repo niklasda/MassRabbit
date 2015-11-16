@@ -1,18 +1,19 @@
 ﻿<Window x:Class="BusClient.Views.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MainWindow" Height="350" Width="525">
+        Title="MainWindow" Height="350" Width="525"
+        DataContext="{Binding Source={StaticResource Locator}, Path=Main}">
     <Grid>
-        <GroupBox x:Name="groupBox" Header="GroupBox"  Margin="5">
+        <GroupBox Header="GroupBox"  Margin="5">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="130"></ColumnDefinition>
                     <ColumnDefinition Width="Auto"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <StackPanel  Margin="5" >
-                    <Button x:Name="button2" Margin="2" Content="Put in Queue" Click="button1_Click"/>
+                    <Button Margin="2" Content="Put in Queue"  Command="{Binding SendMessageCommand}"/>
                 </StackPanel>
-                <TextBlock x:Name="textBlock" Grid.Column="1" HorizontalAlignment="Left" Margin="37,26,-35,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top"/>
+                <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="37,26,-35,0" TextWrapping="Wrap" Text="{Binding TextResult}" VerticalAlignment="Top"/>
             </Grid>
         </GroupBox>
 
