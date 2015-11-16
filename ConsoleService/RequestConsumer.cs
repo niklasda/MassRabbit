@@ -1,16 +1,21 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Threading.Tasks;
 using BusMessages;
 using MassTransit;
+using MassTransit.Logging;
 
 namespace ConsoleService
 {
     public class RequestConsumer : IConsumer<ISimpleRequest>
     {
+        readonly ILog _log = Logger.Get<RequestService>();
+
         public async Task Consume(ConsumeContext<ISimpleRequest> context)
         {
-            Debug.WriteLine("Returning name for {0}", context.Message.CustomerId);
+            Console.WriteLine("Returning name for {0}", context.Message.CustomerId);
+
+            _log.Info("Consuming...");
+
 
             context.Respond(new SimpleResponse
             {

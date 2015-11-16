@@ -1,7 +1,9 @@
 ﻿using System;
-using System.Diagnostics;
 using MassTransit;
+using MassTransit.Logging;
+using MassTransit.NLogIntegration;
 using MassTransit.RabbitMqTransport;
+using MassTransit.NLogIntegration.Logging;
 using Topshelf;
 
 namespace ConsoleService
@@ -9,11 +11,14 @@ namespace ConsoleService
     public class RequestService : ServiceControl
     {
         private IBusControl _busControl;
+        readonly ILog _log = Logger.Get<RequestService>();
 
         public bool Start(HostControl hostControl)
         {
-            Debug.WriteLine("Creating bus...");
+            NLogLogger.Use();
 
+            Console.WriteLine("Creating bus...");
+            _log.Info("Creating bus");
             _busControl = Bus.Factory.CreateUsingRabbitMq(x =>
             {
                 IRabbitMqHost host = x.Host(new Uri("rabbitmq://localhost/"), h =>
@@ -21,11 +26,11 @@ namespace ConsoleService
                     h.Username("guest");
                     h.Password("guest");
                 });
-
+                x.UseNLog();
                 x.ReceiveEndpoint(host, "request_service", e => { e.Consumer<RequestConsumer>(); });
             });
-
-            Debug.WriteLine("Starting bus...");
+            
+            Console.WriteLine("Starting bus...");
 
             _busControl.Start();
 
@@ -34,7 +39,7 @@ namespace ConsoleService
 
         public bool Stop(HostControl hostControl)
         {
-            Debug.WriteLine("Stopping bus...");
+            Console.WriteLine("Stopping bus...");
 
             _busControl?.Stop();
 
