@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using BusMessages;
 using MassTransit;
@@ -9,11 +10,11 @@ namespace ConsoleService
     {
         public async Task Consume(ConsumeContext<ISimpleRequest> context)
         {
-            Console.WriteLine("Returning name for {0}", context.Message.CustomerId);
+            Debug.WriteLine("Returning name for {0}", context.Message.CustomerId);
 
             context.Respond(new SimpleResponse
             {
-                CusomerName = string.Format("Customer Number {0}", context.Message.CustomerId)
+                CustomerName = string.Format("Customer Number {0}", context.Message.CustomerId)
             });
         }
     }   

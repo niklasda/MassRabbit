@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using MassTransit;
 using MassTransit.RabbitMqTransport;
 using Topshelf;
@@ -11,7 +12,7 @@ namespace ConsoleService
 
         public bool Start(HostControl hostControl)
         {
-            Console.WriteLine("Creating bus...");
+            Debug.WriteLine("Creating bus...");
 
             _busControl = Bus.Factory.CreateUsingRabbitMq(x =>
             {
@@ -24,7 +25,7 @@ namespace ConsoleService
                 x.ReceiveEndpoint(host, "request_service", e => { e.Consumer<RequestConsumer>(); });
             });
 
-            Console.WriteLine("Starting bus...");
+            Debug.WriteLine("Starting bus...");
 
             _busControl.Start();
 
@@ -33,7 +34,7 @@ namespace ConsoleService
 
         public bool Stop(HostControl hostControl)
         {
-            Console.WriteLine("Stopping bus...");
+            Debug.WriteLine("Stopping bus...");
 
             _busControl?.Stop();
 

@@ -2,11 +2,11 @@
 {
     public class SimpleResponse : ISimpleResponse
     {
-        public string CusomerName { get; set; }
+        public string CustomerName { get; set; }
     }
 
     public interface ISimpleResponse
     {
-        string CusomerName { get; }
+        string CustomerName { get; }
     }
 }

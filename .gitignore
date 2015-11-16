@@ -1,0 +1,6 @@
+ConsoleService/bin/
+ConsoleService/obj/
+packages/
+BusClient/obj/
+BusMessages/obj/
+BusClient/bin/
