@@ -1,20 +1,8 @@
 ﻿using System;
+using BusMessages.Interfaces;
 
-namespace BusMessages
+namespace BusMessages.Requests
 {
-    public interface ISimpleRequest
-    {
-        /// <summary>
-        /// When the request was created
-        /// </summary>
-        DateTime Timestamp { get; }
-
-        /// <summary>
-        /// The customer id for the request (or whatever data you want here)
-        /// </summary>
-        string CustomerId { get; }
-    }
-
     public class SimpleRequest : ISimpleRequest
     {
         readonly string _customerId;

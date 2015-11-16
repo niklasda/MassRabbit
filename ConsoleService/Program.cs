@@ -1,4 +1,5 @@
 ﻿using System;
+using ConsoleService.Services;
 using Topshelf;
 
 namespace ConsoleService

@@ -1,16 +1,18 @@
 ﻿using System;
 using System.Threading.Tasks;
-using BusMessages;
+using BusMessages.Interfaces;
+using BusMessages.Responses;
+using ConsoleService.Services;
 using MassTransit;
 using MassTransit.Logging;
 
-namespace ConsoleService
+namespace ConsoleService.Consumers
 {
-    public class RequestConsumer : IConsumer<ISimpleRequest>
+    public class ComplexRequestConsumer : IConsumer<IComplexRequest>
     {
         readonly ILog _log = Logger.Get<RequestService>();
 
-        public async Task Consume(ConsumeContext<ISimpleRequest> context)
+        public async Task Consume(ConsumeContext<IComplexRequest> context)
         {
             Console.WriteLine("Returning name for {0}", context.Message.CustomerId);
 
@@ -19,7 +21,7 @@ namespace ConsoleService
 
             context.Respond(new SimpleResponse
             {
-                CustomerName = string.Format("Customer Number {0}", context.Message.CustomerId)
+                CustomerName = string.Format("Complex Customer Number {0}", context.Message.CustomerId)
             });
         }
     }   
