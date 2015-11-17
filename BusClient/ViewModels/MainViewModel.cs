@@ -13,8 +13,10 @@ namespace BusClient.ViewModels
         public MainViewModel()
         {
             SendMessageCommand = new RelayCommand(SendMessage);
+            PutMessageCommand = new RelayCommand(PutMessage);
         }
 
+        private int _i = 0;
         private string _textResult;
         public string TextResult
         {
@@ -30,6 +32,35 @@ namespace BusClient.ViewModels
         }
 
         public RelayCommand SendMessageCommand { get; set; }
+        public RelayCommand PutMessageCommand { get; set; }
+
+        private async void PutMessage()
+        {
+            IBusControl busControl = Bus.Factory.CreateUsingRabbitMq(x => x.Host(new Uri("rabbitmq://localhost"), h =>
+            {
+                h.Username("guest");
+                h.Password("guest");
+            }));
+
+            busControl.Start();
+
+            try
+            {
+                await busControl.Publish(new MessageRequest("m_" + _i++));
+
+                Debug.WriteLine("Published: ");
+                TextResult = "Published";
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Exception {0}", ex);
+            }
+            finally
+            {
+                Debug.WriteLine("Stopping it");
+                busControl.Stop();
+            }
+        }
 
         private async void SendMessage()
         {
@@ -47,8 +78,8 @@ namespace BusClient.ViewModels
                 var simpleClient = busControl.CreateRequestClient<ISimpleRequest, ISimpleResponse>(serviceAddress, TimeSpan.FromSeconds(10));
                 var complexClient = busControl.CreateRequestClient<IComplexRequest, ISimpleResponse>(serviceAddress, TimeSpan.FromSeconds(10));
 
-                ISimpleResponse simpleResponse = await simpleClient.Request(new SimpleRequest("1"));
-                ISimpleResponse complexResponse = await complexClient.Request(new ComplexRequest("2"));
+                ISimpleResponse simpleResponse = await simpleClient.Request(new SimpleRequest("sr_" + _i++));
+                ISimpleResponse complexResponse = await complexClient.Request(new ComplexRequest("qr_" + _i++));
 
                 Debug.WriteLine("Customer Name1: {0}", simpleResponse.CustomerName);
                 Debug.WriteLine("Customer Name2: {0}", complexResponse.CustomerName);

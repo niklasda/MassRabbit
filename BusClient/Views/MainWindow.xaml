@@ -11,7 +11,8 @@
                     <ColumnDefinition Width="Auto"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <StackPanel  Margin="5" >
-                    <Button Margin="2" Content="Put in Queue"  Command="{Binding SendMessageCommand}"/>
+                    <Button Margin="2" Content="R/R Queue"  Command="{Binding SendMessageCommand}"/>
+                    <Button Margin="2" Content="Put in Queue"  Command="{Binding PutMessageCommand}"/>
                 </StackPanel>
                 <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="37,26,-35,0" TextWrapping="Wrap" Text="{Binding TextResult}" VerticalAlignment="Top"/>
             </Grid>

@@ -10,7 +10,7 @@ namespace ConsoleService.Consumers
 {
     public class ComplexRequestConsumer : IConsumer<IComplexRequest>
     {
-        readonly ILog _log = Logger.Get<RequestService>();
+        readonly ILog _log = Logger.Get<ComplexRequestConsumer>();
 
         public async Task Consume(ConsumeContext<IComplexRequest> context)
         {
