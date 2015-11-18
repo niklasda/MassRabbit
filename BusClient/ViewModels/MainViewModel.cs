@@ -5,6 +5,7 @@ using BusMessages.Requests;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using MassTransit;
+using MassTransit.Reactive;
 
 namespace BusClient.ViewModels
 {
@@ -36,16 +37,29 @@ namespace BusClient.ViewModels
 
         private async void PutMessage()
         {
-            IBusControl busControl = Bus.Factory.CreateUsingRabbitMq(x => x.Host(new Uri("rabbitmq://localhost"), h =>
+            IBusControl busControl = Bus.Factory.CreateUsingRabbitMq(x =>
             {
-                h.Username("guest");
-                h.Password("guest");
-            }));
+                x.Host(new Uri("rabbitmq://localhost"), h =>
+                {
+                    h.Username("guest");
+                    h.Password("guest");
+                });
+                x.AutoDelete = true;
+            });
 
             busControl.Start();
 
             try
             {
+                var obsrver = busControl.AsObserver<IMessageRequest>();
+
+                for (int i = 0; i < 6; i++)
+                {
+                    obsrver.OnNext(new MessageRequest((_i++).ToString()));
+                }
+
+                obsrver.OnCompleted();
+
                 await busControl.Publish(new MessageRequest("m_" + _i++));
 
                 Debug.WriteLine("Published: ");
@@ -64,11 +78,15 @@ namespace BusClient.ViewModels
 
         private async void SendMessage()
         {
-            IBusControl busControl = Bus.Factory.CreateUsingRabbitMq(x => x.Host(new Uri("rabbitmq://localhost"), h =>
+            IBusControl busControl = Bus.Factory.CreateUsingRabbitMq(x =>
             {
-                h.Username("guest");
-                h.Password("guest");
-            }));
+                x.Host(new Uri("rabbitmq://localhost"), h =>
+                {
+                    h.Username("guest");
+                    h.Password("guest");
+                });
+                x.AutoDelete = true;
+            });
 
             busControl.Start();
 

@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using BusMessages.Interfaces;
 using BusMessages.Responses;
-using ConsoleService.Services;
 using MassTransit;
 using MassTransit.Logging;
 
@@ -15,8 +14,9 @@ namespace ConsoleService.Consumers
         public async Task Consume(ConsumeContext<IComplexRequest> context)
         {
             Console.WriteLine("Returning name for {0}", context.Message.CustomerId);
+            Console.WriteLine("Returning name for {0}", context.ConversationId);
 
-            _log.Info("Consuming...");
+            _log.Info("Consuming 1...");
 
             context.Respond(new SimpleResponse
             {

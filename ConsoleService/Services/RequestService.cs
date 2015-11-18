@@ -1,5 +1,4 @@
 ﻿using System;
-using BusMessages.Requests;
 using ConsoleService.Consumers;
 using MassTransit;
 using MassTransit.Logging;
@@ -41,15 +40,9 @@ namespace ConsoleService.Services
                     h.Password("guest");
                 });
                 x.UseNLog();
-
+                  x.AutoDelete = true;
                 x.ReceiveEndpoint(host, "request_service", ec => { ec.LoadFrom(container); });
 
-                x.ReceiveEndpoint(host, "my_queue", endpoint =>
-                {
-                    endpoint.LoadFrom(container);
-                    //await Console.Out.WriteLineAsync($"Message Received: {context.Message.CustomerId}");
-                    //});
-                });
             });
 
             //container.Configure(cfg =>
@@ -61,6 +54,7 @@ namespace ConsoleService.Services
             Console.WriteLine("Starting bus...");
 
             _busControl.Start();
+
 
             return true;
         }
