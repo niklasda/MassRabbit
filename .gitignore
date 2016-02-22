@@ -5,3 +5,5 @@ BusMessages/bin/
 BusMessages/obj/
 BusClient/bin/
 BusClient/obj/
+.vs/
+*.user
